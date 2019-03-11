@@ -5,9 +5,9 @@ import javax.swing.*;
 class HomePage extends JFrame {
   Container container;
   private JLabel dolphinsVBengalsLabel, jetsVPatriotsLabel, cowboysVDolphinsLabel,
-    jetsVRamsLabel, PatriotsVRamsLabel;
+    jetsVRamsLabel, patriotsVRamsLabel;
   private JButton upload, searchButton, dolphinsVBengalsButton, jetsVPatriotsButton,
-          cowboysVDolphinsButton, jetsVRamsButton, PatriotsVRamsButton;
+          cowboysVDolphinsButton, jetsVRamsButton, patriotsVRamsButton;
   private JTextField searchBar;
   private JPanel resultPanel;
 
@@ -21,18 +21,24 @@ class HomePage extends JFrame {
     searchButton = new JButton("Search:");
     searchButton.setFont(new Font("Serif", Font.BOLD, 24));
 
-    ImageIcon cowboysVDolphins = new ImageIcon("./images/CowboysVDolphins.jpg");
-    ImageIcon dolphinsVBengals = new ImageIcon("./images/DolphinsVBengals.jpeg");
-    ImageIcon jetsVPatriots = new ImageIcon("./images/JetsVPatriots.jpeg");
-    ImageIcon jetsVRams = new ImageIcon("./images/JetsVRams.jpg");
-    ImageIcon patriotsVRams = new ImageIcon("./images/PatriotsVRams.jpeg");
+    ImageIcon cowboysVDolphins = new ImageIcon("../images/CowboysVDolphins.jpg");
+    ImageIcon dolphinsVBengals = new ImageIcon("../images/DolphinsVBengals.jpeg");
+    ImageIcon jetsVPatriots = new ImageIcon("../images/JetsVPatriots.jpeg");
+    ImageIcon jetsVRams = new ImageIcon("./JetsVRams.jpg");
+    ImageIcon patriotsVRams = new ImageIcon("../images/PatriotsVRams.jpeg");
 
 
     cowboysVDolphinsButton = new JButton(cowboysVDolphins);
     jetsVPatriotsButton = new JButton(jetsVPatriots);
     jetsVRamsButton = new JButton(jetsVRams);
     dolphinsVBengalsButton = new JButton(dolphinsVBengals);
-    PatriotsVRamsButton = new JButton(patriotsVRams);
+    patriotsVRamsButton = new JButton(patriotsVRams);
+
+    dolphinsVBengalsLabel = new JLabel("Dolphins vs. Bengals");
+    jetsVRamsLabel = new JLabel("Jets vs. Rams");
+    dolphinsVBengalsLabel = new JLabel("Dolphins vs. Bengals");
+    jetsVPatriotsLabel = new JLabel("Jets vs. Patriots");
+    patriotsVRamsLabel = new JLabel("Patriots vs. Rams");
 
     resultPanel = new JPanel();
     resultPanel.setLayout(new GridLayout(0,2));
@@ -50,7 +56,6 @@ class HomePage extends JFrame {
     searchBar.setBounds(330,50,350,50);
     resultPanel.setBounds(0, 150, 700, 800);
     searchButton.setBounds(230,50,100,50);
-    cowboysVDolphinsButton.setBounds(0,50,300,200);
 
 
   }
@@ -60,12 +65,21 @@ class HomePage extends JFrame {
     resultPanel.add(dolphinsVBengalsButton);
     resultPanel.add(jetsVPatriotsButton);
     resultPanel.add(jetsVRamsButton);
-    resultPanel.add(PatriotsVRamsButton);
+    resultPanel.add(patriotsVRamsButton);
+    resultPanel.add(cowboysVDolphinsLabel);
+    resultPanel.add(dolphinsVBengalsLabel);
+    resultPanel.add(jetsVPatriotsLabel);
+    resultPanel.add(jetsVRamsLabel);
+    resultPanel.add(patriotsVRamsLabel);
+
+
+
 
     container.add(upload);
-    container.add(resultPanel);
     container.add(searchBar);
     container.add(searchButton);
+    container.add(resultPanel);
+
   }
 
   private void setResultPanelProperties(){
