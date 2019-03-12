@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.URL;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -48,6 +49,54 @@ class HomePage extends JFrame {
       public void actionPerformed(ActionEvent e) {
         Video newVid = new Video(new ArrayList<>(),new DefaultListModel<>());
         JFrame videoPage = new VideoPage("Rams vs. Patriots", newVid);
+        videoPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        videoPage.setSize(1000, 800);
+        videoPage.setVisible(true);
+        dispose();
+      }
+    });
+
+    jetsVRamsButton.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        Video newVid = new Video(new ArrayList<>(),new DefaultListModel<>());
+        JFrame videoPage = new VideoPage("Jets vs. Rams", newVid);
+        videoPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        videoPage.setSize(1000, 800);
+        videoPage.setVisible(true);
+        dispose();
+      }
+    });
+
+    dolphinsVBengalsButton.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        Video newVid = new Video(new ArrayList<>(),new DefaultListModel<>());
+        JFrame videoPage = new VideoPage("Dolphins vs. Bengals", newVid);
+        videoPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        videoPage.setSize(1000, 800);
+        videoPage.setVisible(true);
+        dispose();
+      }
+    });
+
+    cowboysVDolphinsButton.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        Video newVid = new Video(new ArrayList<>(),new DefaultListModel<>());
+        JFrame videoPage = new VideoPage("Cowboys vs. Dolphins", newVid);
+        videoPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        videoPage.setSize(1000, 800);
+        videoPage.setVisible(true);
+        dispose();
+      }
+    });
+
+    jetsVPatriotsButton.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        Video newVid = new Video(new ArrayList<>(),new DefaultListModel<>());
+        JFrame videoPage = new VideoPage("Jets vs. Patriots", newVid);
         videoPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         videoPage.setSize(1000, 800);
         videoPage.setVisible(true);
@@ -104,11 +153,11 @@ class HomePage extends JFrame {
   }
 
   private void makeSearchResults() {
-    ImageIcon cowboysVDolphins = new ImageIcon("./images/CowboysVDolphins.jpg");
-    ImageIcon dolphinsVBengals = new ImageIcon("./images/DolphinsVBengals.jpeg");
-    ImageIcon jetsVPatriots = new ImageIcon("./images/JetsVPatriots.jpeg");
-    ImageIcon jetsVRams = new ImageIcon("./images/JetsVRams.jpg");
-    ImageIcon patriotsVRams = new ImageIcon("./images/PatriotsVRams.jpeg");
+    ImageIcon cowboysVDolphins = new ImageIcon(getClass().getResource("/CowboysVDolphins.jpg"));
+    ImageIcon dolphinsVBengals = new ImageIcon(getClass().getResource("/DolphinsVBengals.jpeg"));
+    ImageIcon jetsVPatriots = new ImageIcon(getClass().getResource("/JetsVPatriots.jpeg"));
+    ImageIcon jetsVRams = new ImageIcon(getClass().getResource("/JetsVRams.jpg"));
+    ImageIcon patriotsVRams = new ImageIcon(getClass().getResource("/PatriotsVRams.jpeg"));
 
 
     cowboysVDolphinsButton = new JButton(cowboysVDolphins);

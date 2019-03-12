@@ -50,7 +50,7 @@ public class VideoPage extends JFrame {
     this.myTags.setFont(defaultFont);
     // Create the + button to add a group label to the video
     this.plusGroup = new JButton();
-    ImageIcon plusIcon = resizeImage(new ImageIcon("./images/plus-sign.png"), 25, 25);
+    ImageIcon plusIcon = resizeImage(new ImageIcon(getClass().getResource("/plus-sign.png")), 25, 25);
     this.plusGroup.setIcon(plusIcon);
 
     // Add listener for adding group
@@ -74,7 +74,7 @@ public class VideoPage extends JFrame {
 
     // Create the button to navigate back to the home page
     this.homeButton = new JButton();
-    ImageIcon homeIcon = resizeImage(new ImageIcon("./images/HomeIcon.png"), 25, 25);
+    ImageIcon homeIcon = resizeImage(new ImageIcon(getClass().getResource("/HomeIcon.png")), 25, 25);
     this.homeButton.setIcon(homeIcon);
     // Create the button to add a new tag
     this.newTag = new JButton("New Tag");
@@ -117,7 +117,7 @@ public class VideoPage extends JFrame {
     this.gameTitle.setFont(defaultFont);
 
     // TODO: Add video player
-    ImageIcon vidPlayer = resizeImage(new ImageIcon("./images/vid-player.png"), 750, 550);
+    ImageIcon vidPlayer = resizeImage(new ImageIcon(getClass().getResource("/vid-player.png")), 750, 550);
     this.vidImg = new JButton();
     this.vidImg.setIcon(vidPlayer);
 

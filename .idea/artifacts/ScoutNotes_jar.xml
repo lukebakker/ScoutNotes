@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="ScoutNotes:jar">
+    <output-path>$PROJECT_DIR$/out/production/ScoutNotes/artifacts/ScoutNotes_jar</output-path>
+    <root id="archive" name="ScoutNotes.jar">
+      <element id="module-output" name="ScoutNotes" />
+      <element id="module-source" name="ScoutNotes" />
+    </root>
+  </artifact>
+</component>

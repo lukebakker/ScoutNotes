@@ -35,7 +35,7 @@ class LoginFrame extends JFrame {
     done.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        if(username.getText().equals("username") && password.getText().equals("password") || true) {
+        if(username.getText().equals("username") && password.getText().equals("password")) {
           JFrame frame = new HomePage("Home");
           frame.setSize(1000, 800);
           frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
