@@ -113,7 +113,7 @@ public class VideoPage extends JFrame {
     this.videoObj = vid;
 
     // TODO: Use model data here
-    this.gameTitle = new JLabel("Game Title Here");
+    this.gameTitle = new JLabel(title);
     this.gameTitle.setFont(defaultFont);
 
     // TODO: Add video player
