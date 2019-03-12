@@ -81,6 +81,17 @@ public class VideoPage extends JFrame {
     this.newTag.setFont(defaultFont);
     this.newTag.setPreferredSize(new Dimension(100,10));
 
+    homeButton.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        JFrame frame = new HomePage("Home");
+        frame.setSize(1000, 800);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+        dispose();
+      }
+    });
+
     this.newTag.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {

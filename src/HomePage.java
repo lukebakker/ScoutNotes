@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
@@ -42,6 +43,17 @@ class HomePage extends JFrame {
     setResultPanelProperties();
     addComponents();
 
+    patriotsVRamsButton.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        Video newVid = new Video(new ArrayList<>(),new DefaultListModel<>());
+        JFrame videoPage = new VideoPage("Rams vs. Patriots", newVid);
+        videoPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        videoPage.setSize(1000, 800);
+        videoPage.setVisible(true);
+        dispose();
+      }
+    });
 
     createGroupButton.addActionListener(new ActionListener() {
       @Override
