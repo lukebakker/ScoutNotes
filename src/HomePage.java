@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 
 import javax.swing.*;
@@ -16,10 +17,18 @@ class HomePage extends JFrame {
   patriotsGroup, jetsGroup, ramsGroup;
   private JTextField searchBar;
   private JPanel resultPanel, groupMenu;
+  private ArrayList<String> userGroups;
+  private ArrayList<Video> userVideos;
+  private UserData user;
 
-  HomePage(String title) {
+  HomePage(String title, UserData user) {
     super(title);
     setLayout(null);
+
+    this.user = user;
+
+    this.userGroups = this.user.groups;
+    this.userVideos = this.user.videos;
 
     upload = new JButton("Upload");
     upload.setFont(new Font("Serif", Font.BOLD, 24));
@@ -27,21 +36,9 @@ class HomePage extends JFrame {
     searchButton = new JButton("Search:");
     searchButton.setFont(new Font("Serif", Font.BOLD, 24));
 
-    makeSearchResults();
-    makeGroupMenu();
-    createGroupButton.setFont(new Font("Serif", Font.BOLD, 24));
-    jetsGroup.setFont(new Font("Serif", Font.BOLD, 24));
-    patriotsGroup.setFont(new Font("Serif", Font.BOLD, 24));
-    dolphinsGroup.setFont(new Font("Serif", Font.BOLD, 24));
-    ramsGroup.setFont(new Font("Serif", Font.BOLD, 24));
-
-
-
-
+    initializeVideos();
 
     container = getContentPane();
-    setLocation();
-    setResultPanelProperties();
     addComponents();
 
     patriotsVRamsButton.addActionListener(new ActionListener() {
@@ -104,6 +101,9 @@ class HomePage extends JFrame {
       }
     });
 
+    setResultPanelProperties();
+    setLocation();
+
     createGroupButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
@@ -120,9 +120,13 @@ class HomePage extends JFrame {
         });
       }
     });
+
+    // TODO: Dynamic search
     searchButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
+        String searchText = searchBar.getText();
+
         resultPanel.remove(jetsVPatriotsButton);
         resultPanel.remove(jetsVPatriotsLabel);
         resultPanel.remove(dolphinsVBengalsButton);
@@ -133,9 +137,14 @@ class HomePage extends JFrame {
         resultPanel.remove(jetsVRamsLabel);
         resultPanel.setVisible(false);
         resultPanel.setVisible(true);
-
       }
     });
+  }
+
+  private void initializeVideos() {
+
+
+
   }
 
 
@@ -144,41 +153,28 @@ class HomePage extends JFrame {
     groupMenu.setLayout(new BoxLayout(groupMenu, BoxLayout.PAGE_AXIS));
     createGroupButton = new JButton("Create Group");
     myGroupsLabel = new JLabel("My Groups:");
+    createGroupButton.setFont(new Font("Serif", Font.BOLD, 24));
     myGroupsLabel.setFont(new Font("Serif", Font.BOLD, 24));
-    dolphinsGroup = new JButton("Dolphins");
-    jetsGroup = new JButton("Jets");
-    patriotsGroup = new JButton("Patriots");
-    ramsGroup = new JButton("Rams");
+
+    createGroupButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+    createGroupButton.setMaximumSize(new Dimension(200, 50));
+    groupMenu.add(Box.createRigidArea(new Dimension(200,50)));
+    groupMenu.add(createGroupButton);
+    groupMenu.add(Box.createRigidArea(new Dimension(200,50)));
+    myGroupsLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+    groupMenu.add(myGroupsLabel);
+    groupMenu.add(Box.createRigidArea(new Dimension(200,50)));
+
+    for (String g : this.userGroups) {
+      JButton button = new JButton(g);
+      button.setFont(new Font("Serif", Font.BOLD, 24));
+      button.setAlignmentX(Component.CENTER_ALIGNMENT);
+      groupMenu.add(button);
+      button.setMaximumSize(new Dimension(200,50));
+    }
 
   }
 
-  private void makeSearchResults() {
-    ImageIcon cowboysVDolphins = new ImageIcon(getClass().getResource("/CowboysVDolphins.jpg"));
-    ImageIcon dolphinsVBengals = new ImageIcon(getClass().getResource("/DolphinsVBengals.jpeg"));
-    ImageIcon jetsVPatriots = new ImageIcon(getClass().getResource("/JetsVPatriots.jpeg"));
-    ImageIcon jetsVRams = new ImageIcon(getClass().getResource("/JetsVRams.jpg"));
-    ImageIcon patriotsVRams = new ImageIcon(getClass().getResource("/PatriotsVRams.jpeg"));
-
-
-    cowboysVDolphinsButton = new JButton(cowboysVDolphins);
-    jetsVPatriotsButton = new JButton(jetsVPatriots);
-    jetsVRamsButton = new JButton(jetsVRams);
-    dolphinsVBengalsButton = new JButton(dolphinsVBengals);
-    patriotsVRamsButton = new JButton(patriotsVRams);
-
-    cowboysVDolphinsLabel = new JLabel("Cowboys vs. Dolphins");
-    jetsVPatriotsLabel = new JLabel("Jets vs. Patriots");
-    jetsVRamsLabel = new JLabel("Jets vs. Rams");
-    dolphinsVBengalsLabel = new JLabel("Dolphins vs. Bengals");
-    patriotsVRamsLabel = new JLabel("Patriots vs Rams");
-
-    resultPanel = new JPanel();
-    resultPanel.setLayout(new BoxLayout(resultPanel, BoxLayout.PAGE_AXIS));
-    scrollPanel = new JScrollPane(resultPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-    scrollPanel.setPreferredSize(new Dimension(600,600));
-    scrollPanel.setBounds(0, 150, 700, 600);
-  }
 
   private void setLocation() {
     upload.setBounds(30,50,200,50);
@@ -186,63 +182,49 @@ class HomePage extends JFrame {
     resultPanel.setBounds(0, 150, 700, 600);
     searchButton.setBounds(230,50,100,50);
     groupMenu.setBounds(700, 0, 300, 800);
-    createGroupButton.setMaximumSize(new Dimension(200,50));
-    jetsGroup.setMaximumSize(new Dimension(200,50));
-    patriotsGroup.setMaximumSize(new Dimension(200,50));
-    dolphinsGroup.setMaximumSize(new Dimension(200,50));
 
   }
 
+  private void buildResultPanel() {
+    resultPanel = new JPanel();
+
+    for (Video vid : this.userVideos) {
+      // create the label for the video
+      JLabel vidLabel = new JLabel(vid.title);
+      vidLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+      resultPanel.add(vidLabel);
+
+      // create the button for the video
+      JButton vidButton = new JButton(vid.image);
+      vidButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+      // Add action listener to redirect to the video's page on-click
+      vidButton.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+          JFrame videoPage = new VideoPage(vid.title, vid);
+          videoPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+          videoPage.setSize(1000, 800);
+          videoPage.setVisible(true);
+          dispose();
+        }
+      });
+      resultPanel.add(vidButton);
+    }
+
+    resultPanel.setLayout(new BoxLayout(resultPanel, BoxLayout.PAGE_AXIS));
+    scrollPanel = new JScrollPane(resultPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+    scrollPanel.setPreferredSize(new Dimension(600,600));
+    scrollPanel.setBounds(0, 150, 700, 600);
+  }
+
   private void addComponents() {
-
     // search results section
-
-    dolphinsVBengalsLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-    resultPanel.add(dolphinsVBengalsLabel);
-
-    dolphinsVBengalsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-    resultPanel.add(dolphinsVBengalsButton);
-
-    cowboysVDolphinsLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-    resultPanel.add(cowboysVDolphinsLabel);
-
-    cowboysVDolphinsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-    resultPanel.add(cowboysVDolphinsButton);
-
-    jetsVPatriotsLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-    resultPanel.add(jetsVPatriotsLabel);
-
-    jetsVPatriotsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-    resultPanel.add(jetsVPatriotsButton);
-
-    jetsVRamsLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-    resultPanel.add(jetsVRamsLabel);
-
-    jetsVRamsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-    resultPanel.add(jetsVRamsButton);
-
-    patriotsVRamsLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-    resultPanel.add(patriotsVRamsLabel);
-
-    patriotsVRamsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-    resultPanel.add(patriotsVRamsButton);
+    buildResultPanel();
 
     // groups section
-
-    createGroupButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-    groupMenu.add(Box.createRigidArea(new Dimension(200,50)));
-    groupMenu.add(createGroupButton);
-    groupMenu.add(Box.createRigidArea(new Dimension(200,50)));
-    myGroupsLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-    groupMenu.add(myGroupsLabel);
-    groupMenu.add(Box.createRigidArea(new Dimension(200,50)));
-    jetsGroup.setAlignmentX(Component.CENTER_ALIGNMENT);
-    groupMenu.add(jetsGroup);
-    patriotsGroup.setAlignmentX(Component.CENTER_ALIGNMENT);
-    groupMenu.add(patriotsGroup);
-    dolphinsGroup.setAlignmentX(Component.CENTER_ALIGNMENT);
-    groupMenu.add(dolphinsGroup);
-
+    makeGroupMenu();
 
     container.add(upload);
     container.add(scrollPanel);

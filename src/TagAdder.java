@@ -6,17 +6,20 @@ import javax.swing.*;
 
 public class TagAdder extends JFrame {
 
+  String textEntry;
+  VideoPage page;
   Container container;
   JPanel main, groupMenu;
-  JTextField groupName;
+  JTextField tagName;
   JLabel instructions;
   JButton done;
   public boolean doneClicked;
 
 
-  TagAdder(String title) {
+  TagAdder(String title, VideoPage page) {
     super(title);
     doneClicked = false;
+    this.page = page;
 
     setLayout(null);
 
@@ -25,7 +28,7 @@ public class TagAdder extends JFrame {
     main.setBounds(0,0, 200,150);
 
     instructions = new JLabel("Enter group name:");
-    groupName = new JTextField();
+    tagName = new JTextField();
     done = new JButton("Done");
 
     container = getContentPane();
@@ -34,9 +37,9 @@ public class TagAdder extends JFrame {
     instructions.setAlignmentX(Component.CENTER_ALIGNMENT);
     main.add(instructions);
 
-    groupName.setAlignmentX(Component.CENTER_ALIGNMENT);
-    groupName.setMaximumSize(new Dimension(200,50));
-    main.add(groupName);
+    tagName.setAlignmentX(Component.CENTER_ALIGNMENT);
+    tagName.setMaximumSize(new Dimension(200,50));
+    main.add(tagName);
 
     done.setAlignmentX(Component.CENTER_ALIGNMENT);
     main.add(done);
@@ -45,10 +48,13 @@ public class TagAdder extends JFrame {
     container.add(main);
 
     done.addActionListener(new ActionListener() {
+
       @Override
       public void actionPerformed(ActionEvent e) {
         dispose();
         doneClicked = true;
+        textEntry = tagName.getText();
+        page.addTag(textEntry, "00:00");
       }
     });
   }
