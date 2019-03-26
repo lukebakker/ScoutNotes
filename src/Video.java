@@ -9,6 +9,7 @@ public class Video {
   Video(ArrayList<JLabel> groups, DefaultListModel<String> tags) {
     this.groups = groups;
     this.tags = tags;
+
   }
 
   protected void addTag(String entry) {

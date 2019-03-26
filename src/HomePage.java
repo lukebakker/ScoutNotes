@@ -49,7 +49,7 @@ class HomePage extends JFrame {
       public void actionPerformed(ActionEvent e) {
         Video newVid = new Video(new ArrayList<>(),new DefaultListModel<>());
         JFrame videoPage = new VideoPage("Rams vs. Patriots", newVid);
-        videoPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        videoPage.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         videoPage.setSize(1000, 800);
         videoPage.setVisible(true);
         dispose();
@@ -73,7 +73,7 @@ class HomePage extends JFrame {
       public void actionPerformed(ActionEvent e) {
         Video newVid = new Video(new ArrayList<>(),new DefaultListModel<>());
         JFrame videoPage = new VideoPage("Dolphins vs. Bengals", newVid);
-        videoPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        videoPage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         videoPage.setSize(1000, 800);
         videoPage.setVisible(true);
         dispose();
@@ -85,7 +85,7 @@ class HomePage extends JFrame {
       public void actionPerformed(ActionEvent e) {
         Video newVid = new Video(new ArrayList<>(),new DefaultListModel<>());
         JFrame videoPage = new VideoPage("Cowboys vs. Dolphins", newVid);
-        videoPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        videoPage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         videoPage.setSize(1000, 800);
         videoPage.setVisible(true);
         dispose();
@@ -97,7 +97,7 @@ class HomePage extends JFrame {
       public void actionPerformed(ActionEvent e) {
         Video newVid = new Video(new ArrayList<>(),new DefaultListModel<>());
         JFrame videoPage = new VideoPage("Jets vs. Patriots", newVid);
-        videoPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        videoPage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         videoPage.setSize(1000, 800);
         videoPage.setVisible(true);
         dispose();
@@ -108,7 +108,7 @@ class HomePage extends JFrame {
       @Override
       public void actionPerformed(ActionEvent e) {
         JFrame addGroup = new CreateGroup("Create Group");
-        addGroup.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        addGroup.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         addGroup.setLocation(700, 150);
         addGroup.setSize(new Dimension(200,150));
         addGroup.setVisible(true);

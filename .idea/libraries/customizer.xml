@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="customizer">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/lib/customizer.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jmf.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jna-3.5.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/mediaplayer.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/multiplayer.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/platform-3.5.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/vlcj-3.0.1.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

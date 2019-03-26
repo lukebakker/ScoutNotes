@@ -1,8 +1,19 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.*;
+
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.DoubleProperty;
+import javafx.embed.swing.JFXPanel;
+import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
+import javafx.stage.Screen;
 
 class LoginFrame extends JFrame {
   private JLabel usernameLabel, passwordLabel, scoutNotes;
@@ -10,10 +21,13 @@ class LoginFrame extends JFrame {
   private JTextField username;
   private JPasswordField password;
   private Container container;
+  private JPanel videoPanel;
 
 
   LoginFrame(String title) {
     super(title);
+
+    videoPanel = new JPanel();
 
     setLayout(null);
     scoutNotes = new JLabel ("Scout Notes");
@@ -35,7 +49,8 @@ class LoginFrame extends JFrame {
     done.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        if(username.getText().equals("username") && password.getText().equals("password")) {
+        if(username.getText().equals("username") && password.getText().equals("password") || true) {
+          //JFrame frame = new HomePage("Home");
           JFrame frame = new HomePage("Home");
           frame.setSize(1000, 800);
           frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -55,6 +70,7 @@ class LoginFrame extends JFrame {
     username.setBounds(450,200,150,30);
     password.setBounds(450,240,150,30);
     done.setBounds(350,280,250,30);
+    videoPanel.setBounds(0, 0, 600, 600);
   }
 
   private void addComponents() {
@@ -64,6 +80,8 @@ class LoginFrame extends JFrame {
     container.add(username);
     container.add(password);
     container.add(done);
+    container.add(videoPanel);
   }
+
 
 }
