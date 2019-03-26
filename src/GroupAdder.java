@@ -9,17 +9,20 @@ import javax.swing.*;
  */
 public class GroupAdder extends JFrame {
 
+  VideoPage page;
   Container container;
   JPanel main, groupMenu;
   JTextField groupName;
   JLabel instructions;
   JButton done;
+  String textEntry;
   public boolean doneClicked;
 
 
-  GroupAdder(String title) {
+  GroupAdder(String title, VideoPage page) {
     super(title);
     doneClicked = false;
+    this.page = page;
 
     setLayout(null);
 
@@ -52,11 +55,20 @@ public class GroupAdder extends JFrame {
       public void actionPerformed(ActionEvent e) {
         dispose();
         doneClicked = true;
+        textEntry = groupName.getText();
+        page.addGroup(textEntry);
+        if (textEntry == null | textEntry.isEmpty()) {
+        	System.out.println("No entry");
+        }
       }
     });
   }
 
   public void addDoneListener(ActionListener listener) {
     done.addActionListener(listener);
+  }
+  
+  public String getText() {
+	  return this.textEntry;
   }
 }

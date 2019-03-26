@@ -12,32 +12,25 @@ public class VideoPage extends JFrame {
   private JLabel groupHeader, myTags, gameTitle;
   private JList<String> tags;
   private ArrayList<JLabel> groups;
-  private String[] dummyGroupList;
   private DefaultListModel<String> tagHolder;
   private Video videoObj;
+  private String title;
+  private VideoPage page;
 
 
   // TODO: Make this constructor take a model object
   VideoPage(String title, Video vid) {
-    super(title);
+    super(vid.title);
+    this.title = vid.title;
     setLayout(null);
+    this.page = this;
 
-    this.dummyGroupList = new String[]{"Football"};
 
-    // Initialize dummy data for tags and groups, change this later to use the model
-    if (vid.groups.isEmpty() && vid.tags.isEmpty()) {
-      this.tagHolder = new DefaultListModel<>();
-      // TODO: Delete dummy data
-      this.tagHolder.addElement("Good catch");
-      this.tagHolder.addElement("Pass rush");
-
-      this.groups = initGroups();
+    this.tagHolder = new DefaultListModel<String>();
+    for (VideoTag t : vid.tags) {
+      this.tagHolder.addElement(t.getText());
     }
-    // or use the actual model data
-    else {
-      this.tagHolder = vid.tags;
-      this.groups = vid.groups;
-    }
+    this.groups = vid.groups;
 
     this.tags = new JList<>(this.tagHolder);
 
@@ -57,18 +50,11 @@ public class VideoPage extends JFrame {
     this.plusGroup.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        JFrame groupAdder = new GroupAdder("Add Group");
+        JFrame groupAdder = new GroupAdder("Add Group", page);
         groupAdder.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         groupAdder.setLocation(700, 150);
         groupAdder.setSize(new Dimension(200,150));
         groupAdder.setVisible(true);
-        ((GroupAdder) groupAdder).addDoneListener(new ActionListener() {
-          @Override
-          public void actionPerformed(ActionEvent e) {
-            // TODO: Feed this the actual text
-            addGroup("Rams");
-          }
-        });
       }
     });
 
@@ -84,29 +70,18 @@ public class VideoPage extends JFrame {
     homeButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        JFrame frame = new HomePage("Home");
-        frame.setSize(1000, 800);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
-        dispose();
+        videoObj.sendHome();
       }
     });
 
     this.newTag.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        JFrame tagAdder = new TagAdder("Add Tag");
+        JFrame tagAdder = new TagAdder("Add Tag", page);
         tagAdder.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         tagAdder.setLocation(700, 150);
         tagAdder.setSize(new Dimension(200,150));
         tagAdder.setVisible(true);
-        ((TagAdder) tagAdder).addDoneListener(new ActionListener() {
-          @Override
-          public void actionPerformed(ActionEvent e) {
-            // TODO: Feed this the actual text
-            addTag("Sample Tag");
-          }
-        });
       }
     });
 
@@ -130,33 +105,23 @@ public class VideoPage extends JFrame {
   }
 
 
-  // TODO: Change this method to use the model
-  private ArrayList<JLabel> initGroups() {
-    ArrayList<JLabel> groupLabels = new ArrayList<>();
-    for (String group : dummyGroupList) {
-      groupLabels.add(new JLabel(group));
-    }
-    return groupLabels;
-  }
-
-
-  private void addGroup(String entry) {
-    this.groups.add(new JLabel(entry));
+  void addGroup(String entry) {
+    this.videoObj.addGroup(entry);
 
     this.refreshLayout();
   }
 
 
-  private void addTag(String entry) {
-    this.tagHolder.addElement(entry);
+  void addTag(String entry, String time) {
+    this.videoObj.addTag(entry, "00:00");
 
     this.refreshLayout();
   }
 
 
-  private void deleteTag(String tag) {
-    this.tagHolder.removeElement(tag);
-  }
+  //private void deleteTag(String tag) {
+  //  this.tagHolder.removeElement(tag);
+  //}
 
 
   private void prevTag(JButton tagButton) {
@@ -164,16 +129,8 @@ public class VideoPage extends JFrame {
   }
 
 
-  private void goHome() {
-    JFrame frame = new HomePage("ScoutNotes");
-    frame.setSize(1000, 800);
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setVisible(true);
-  }
-
-
-  private void refreshLayout() {
-    JFrame frame = new VideoPage("Video Page", new Video(this.groups, this.tagHolder));
+  protected void refreshLayout() {
+    JFrame frame = new VideoPage(this.title, this.videoObj);
     frame.setSize(1000, 800);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.setVisible(true);
@@ -222,6 +179,5 @@ public class VideoPage extends JFrame {
       add(gl);
     }
   }
-
 
 }
