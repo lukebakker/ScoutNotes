@@ -80,6 +80,8 @@ public class MediaControl extends BorderPane {
 
     mp.setOnPlaying(new Runnable() {
       public void run() {
+        duration = mp.getMedia().getDuration();
+        updateValues();
         if (stopRequested) {
           mp.pause();
           stopRequested = false;
@@ -196,7 +198,6 @@ public class MediaControl extends BorderPane {
     int elapsedMinutes = intElapsed / 60;
     int elapsedSeconds = intElapsed - elapsedHours * 60 * 60
             - elapsedMinutes * 60;
-
     if (duration.greaterThan(Duration.ZERO)) {
       int intDuration = (int) Math.floor(duration.toSeconds());
       int durationHours = intDuration / (60 * 60);
