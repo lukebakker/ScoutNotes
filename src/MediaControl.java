@@ -189,6 +189,11 @@ public class MediaControl extends BorderPane {
     }
   }
 
+
+  public void setTime(Duration time) {
+    mp.seek(time);
+  }
+
   private static String formatTime(Duration elapsed, Duration duration) {
     int intElapsed = (int) Math.floor(elapsed.toSeconds());
     int elapsedHours = intElapsed / (60 * 60);

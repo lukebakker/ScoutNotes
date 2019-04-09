@@ -16,6 +16,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Screen;
+import javafx.util.Duration;
 
 // TODO: Use model class, add video player
 public class VideoPage extends JFrame {
@@ -28,6 +29,8 @@ public class VideoPage extends JFrame {
   private String title;
   private VideoPage page;
   private JPanel videoPanel;
+  private JFXPanel VFXPanel;
+  private MediaControl mediaControl;
 
 
   // TODO: Make this constructor take a model object
@@ -196,13 +199,13 @@ public class VideoPage extends JFrame {
   }
 
   private void initVideoPlayer(){
-    final JFXPanel VFXPanel = new JFXPanel();
+    VFXPanel = new JFXPanel();
 
     File video_source = new File("videos/EdlemanCatch.mp4");
     Media m = new Media(video_source.toURI().toString());
     MediaPlayer player = new MediaPlayer(m);
     MediaView viewer = new MediaView(player);
-    MediaControl mediaControl = new MediaControl(player);
+    mediaControl = new MediaControl(player);
 
     StackPane root = new StackPane();
     Scene scene = new Scene(root);
@@ -227,6 +230,12 @@ public class VideoPage extends JFrame {
     VFXPanel.setScene(scene);
     videoPanel.setLayout(new BorderLayout());
     videoPanel.add(VFXPanel, BorderLayout.CENTER);
+  }
+
+
+  private void goToTime(Duration currTime) {
+    mediaControl.setTime(currTime);
+    mediaControl.updateValues();
   }
 
 
