@@ -4,6 +4,7 @@ import java.awt.event.ActionListener;
 import java.net.URL;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Set;
 
 import javax.swing.*;
 
@@ -17,17 +18,21 @@ class HomePage extends JFrame {
   patriotsGroup, jetsGroup, ramsGroup;
   private JTextField searchBar;
   private JPanel resultPanel, groupMenu;
-  private ArrayList<String> userGroups;
   private ArrayList<Video> userVideos;
   private UserData user;
+  Set<String> groupSet;
+  HomePage page;
 
   HomePage(String title, UserData user) {
     super(title);
     setLayout(null);
 
+    this.page = this;
+
     this.user = user;
 
-    this.userGroups = this.user.groups;
+    this.groupSet = this.user.mapping.keySet();
+
     this.userVideos = this.user.videos;
 
     upload = new JButton("Upload");
@@ -47,17 +52,12 @@ class HomePage extends JFrame {
     createGroupButton.addActionListener(new ActionListener() {
       @Override
       public void actionPerformed(ActionEvent e) {
-        JFrame addGroup = new CreateGroup("Create Group");
-        addGroup.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JFrame addGroup = new CreateGroup("Create Group", user, page);
+        addGroup.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         addGroup.setLocation(700, 150);
         addGroup.setSize(new Dimension(200,150));
         addGroup.setVisible(true);
-        ((CreateGroup) addGroup).addDoneListener(new ActionListener() {
-          @Override
-          public void actionPerformed(ActionEvent e) {
-            addRamsButton();
-          }
-        });
+
       }
     });
 
@@ -105,7 +105,7 @@ class HomePage extends JFrame {
     groupMenu.add(myGroupsLabel);
     groupMenu.add(Box.createRigidArea(new Dimension(200,50)));
 
-    for (String g : this.userGroups) {
+    for (String g : this.groupSet) {
       JButton button = new JButton(g);
       button.setFont(new Font("Serif", Font.BOLD, 24));
       button.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -114,7 +114,6 @@ class HomePage extends JFrame {
     }
 
   }
-
 
   private void setLocation() {
     upload.setBounds(30,50,200,50);
@@ -178,14 +177,23 @@ class HomePage extends JFrame {
     groupMenu.setBackground(Color.GRAY);
   }
 
-  private void addRamsButton() {
-    System.out.println("HERE");
-    ramsGroup.setAlignmentX(Component.CENTER_ALIGNMENT);
-    ramsGroup.setMaximumSize(new Dimension(200,50));
-    groupMenu.add(ramsGroup);
-    groupMenu.setVisible(false);
-    groupMenu.setVisible(true);
+  private void addGroupButton() {
 
+    System.out.println(user.mapping.keySet());
+    remove(groupMenu);
+    makeGroupMenu();
+    add(groupMenu);
+    groupMenu.setBounds(700, 0, 300, 800);
+
+    groupMenu.repaint();
+    groupMenu.revalidate();
+
+  }
+
+  void addGroup(String text) {
+    this.user.mapping.put(text, null);
+
+    addGroupButton();
   }
 
 }

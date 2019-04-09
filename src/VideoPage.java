@@ -28,15 +28,10 @@ public class VideoPage extends JFrame {
   private Video videoObj;
   private String title;
   private VideoPage page;
-<<<<<<< Updated upstream
-  private JPanel videoPanel;
   private JFXPanel VFXPanel;
   private MediaControl mediaControl;
-=======
   private JPanel videoPanel, tagPanel;
   private JScrollPane tagScroll;
->>>>>>> Stashed changes
-
 
   // TODO: Make this constructor take a model object
   VideoPage(String title, Video vid) {
@@ -48,7 +43,7 @@ public class VideoPage extends JFrame {
 
     videoPanel = new JPanel();
 
-    this.tagHolder = new DefaultListModel<String>();
+    this.tagHolder = new DefaultListModel<>();
     for (VideoTag t : vid.tags) {
       this.tagHolder.addElement(t.getText());
     }
@@ -133,6 +128,8 @@ public class VideoPage extends JFrame {
   void addGroup(String entry) {
     this.videoObj.addGroup(entry);
 
+
+
     this.refreshLayout();
   }
 
@@ -140,7 +137,15 @@ public class VideoPage extends JFrame {
   void addTag(String entry, String time) {
     this.videoObj.addTag(entry, time);
 
-    this.refreshLayout();
+    remove(tagScroll);
+    buildTagPanel();
+    tagScroll.setBounds(800, 50, 175, 600);
+    add(tagScroll);
+
+    tagScroll.repaint();
+    tagScroll.revalidate();
+
+    //this.refreshLayout();
   }
 
 
@@ -155,6 +160,7 @@ public class VideoPage extends JFrame {
 
 
   protected void refreshLayout() {
+    System.out.println(this.videoObj.tags);
     JFrame frame = new VideoPage(this.title, this.videoObj);
     frame.setSize(1000, 800);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -196,9 +202,15 @@ public class VideoPage extends JFrame {
 
     for (VideoTag tag : this.videoObj.tags) {
       JButton tagButton = new JButton(tag.getText() + " " + tag.getTime());
+      tagButton.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+          goToTime(new Duration(tag.getMs())) ;
+        }
+      });
       tagPanel.add(tagButton);
     }
-
+    tagPanel.setLayout(new BoxLayout(tagPanel, BoxLayout.PAGE_AXIS));
     tagScroll = new JScrollPane(tagPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
             JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -223,7 +235,7 @@ public class VideoPage extends JFrame {
   private void initVideoPlayer(){
     VFXPanel = new JFXPanel();
 
-    File video_source = new File("videos/EdlemanCatch.mp4");
+    File video_source = new File(this.videoObj.vidPath);
     Media m = new Media(video_source.toURI().toString());
     MediaPlayer player = new MediaPlayer(m);
     MediaView viewer = new MediaView(player);

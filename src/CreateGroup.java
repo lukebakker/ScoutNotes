@@ -11,11 +11,17 @@ public class CreateGroup extends JFrame{
   JLabel instructions;
   JButton done;
   public boolean doneClicked;
+  UserData user;
+  HomePage page;
 
 
-  CreateGroup(String title) {
+  CreateGroup(String title, UserData user, HomePage page) {
     super(title);
     doneClicked = false;
+
+    this.page = page;
+
+    this.user = user;
 
     setLayout(null);
 
@@ -47,9 +53,11 @@ public class CreateGroup extends JFrame{
       @Override
       public void actionPerformed(ActionEvent e) {
         dispose();
-        if(groupName.getText().equals("Rams") || groupName.getText().equals("rams")) {
-          doneClicked = true;
-        }
+        doneClicked = true;
+        String textEntry = groupName.getText();
+        page.addGroup(textEntry);
+        //user.mapping.put(textEntry, null);
+        System.out.println(user.mapping.keySet());
       }
     });
   }

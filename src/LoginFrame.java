@@ -2,6 +2,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.*;
 
@@ -48,26 +49,30 @@ class LoginFrame extends JFrame {
     ImageIcon patriotsVRamsImg = new ImageIcon(getClass().getResource("/PatriotsVRams.jpeg"));
 
     this.userVideos = new ArrayList<>();
+    HashMap<String, Video> userMap = new HashMap<>();
 
-    this.userGroups = new ArrayList<>();
+    testUser = new UserData("username", "password", this.userVideos, userMap);
 
-    testUser = new UserData("username", "password", this.userVideos, this.userGroups);
+    dolphinsVBengals = new Video("Dolphins vs. Bengals", this.dummyTags, this.defaultTags, dolphinsVBengalsImg, testUser, "videos/dolphins-bengals.mp4");
+    jetsVPatriots = new Video("Jets vs. Patriots", this.dummyTags, this.defaultTags, jetsVPatriotsImg, testUser, "videos/jets-patriots.mp4");
+    cowboysVDolphins = new Video("Cowboys vs. Dolphins", this.dummyTags, this.defaultTags, cowboysVDolphinsImg, testUser, "videos/cowboys-dolphins.mp4");
+    jetsVRams = new Video("Jets vs. Rams", this.dummyTags, this.defaultTags, jetsVRamsImg, testUser, "videos/jets-rams.mp4");
+    patriotsVRams = new Video("Patriots vs. Rams", this.dummyTags, this.defaultTags, patriotsVRamsImg, testUser, "videos/patriots-rams.mp4");
 
-    dolphinsVBengals = new Video("Dolphins vs. Bengals", this.dummyTags, this.defaultTags, dolphinsVBengalsImg, testUser);
-    jetsVPatriots = new Video("Jets vs. Patriots", this.dummyTags, this.defaultTags, jetsVPatriotsImg, testUser);
-    cowboysVDolphins = new Video("Cowboys vs. Dolphins", this.dummyTags, this.defaultTags, cowboysVDolphinsImg, testUser);
-    jetsVRams = new Video("Jets vs. Rams", this.dummyTags, this.defaultTags, jetsVRamsImg, testUser);
-    patriotsVRams = new Video("Patriots vs. Rams", this.dummyTags, this.defaultTags, patriotsVRamsImg, testUser);
 
-    this.userGroups.add("Jets");
-    this.userGroups.add("Patriots");
-    this.userGroups.add("Dolphins");
+    userMap.put("Football", dolphinsVBengals);
+    userMap.put("Football", jetsVPatriots);
+    userMap.put("Football", cowboysVDolphins);
+    userMap.put("Football", jetsVRams);
+    userMap.put("Football", patriotsVRams);
+
 
     this.userVideos.add(dolphinsVBengals);
     this.userVideos.add(jetsVPatriots);
     this.userVideos.add(cowboysVDolphins);
     this.userVideos.add(jetsVRams);
     this.userVideos.add(patriotsVRams);
+
 
     usernameLabel = new JLabel("Username:");
     passwordLabel = new JLabel("Password:");

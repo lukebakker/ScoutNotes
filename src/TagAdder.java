@@ -27,7 +27,7 @@ public class TagAdder extends JFrame {
     main.setLayout(new BoxLayout(main, BoxLayout.PAGE_AXIS));
     main.setBounds(0,0, 200,450);
 
-    instructions = new JLabel("Enter group name:");
+    instructions = new JLabel("Enter tag name:");
     tagName = new JTextField();
 
     time_instructions = new JLabel("Enter time stamp (MM:SS):");

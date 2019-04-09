@@ -9,41 +9,34 @@ public class Video {
   protected ArrayList<JLabel> groups;
   protected ImageIcon image;
   protected UserData user;
+  protected String vidPath;
 
-  Video(String title, ArrayList<JLabel> groups, ArrayList<VideoTag> tags, ImageIcon image, UserData user) {
+  Video(String title, ArrayList<JLabel> groups, ArrayList<VideoTag> tags, ImageIcon image, UserData user, String vidPath) {
     this.title = title;
     this.groups = groups;
     this.tags = tags;
     this.image = image;
     this.user = user;
+    this.vidPath = vidPath;
   }
 
-  Video(String title, ArrayList<JLabel> groups, ArrayList<VideoTag> tags, UserData user) {
+  Video(String title, ArrayList<JLabel> groups, ArrayList<VideoTag> tags, UserData user, String vidPath) {
     this.title = title;
     this.groups = groups;
     this.tags = tags;
     this.image = new ImageIcon(getClass().getResource("/vid-player.png"));
     this.user = user;
+    this.vidPath = vidPath;
   }
 
   protected void addTag(String entry, String newTime) {
-    ArrayList<String> tagStrings = new ArrayList<String>();
-    for (VideoTag t : tags) {
-      tagStrings.add(t.getText());
-    }
-    // If the tag is already present, add the newly desired time
-    /*if (tagStrings.contains(entry)) {
-      updateTag(entry, newTime);
-    }*/
-    // If the tag does not exist in this video yet, add it at the desired time
+    // Add tag at the desired time
     this.tags.add(new VideoTag(entry, newTime));
   }
 
   protected void addGroup(String entry) {
     this.groups.add(new JLabel(entry));
-    System.out.println("Added to model");
-    System.out.println(entry);
-    System.out.println(this.groups);
+    this.user.mapping.put(entry, this);
   }
 
   /*private void updateTag(String tag, String newTime) {
