@@ -32,11 +32,11 @@ public class Video {
       tagStrings.add(t.getText());
     }
     // If the tag is already present, add the newly desired time
-    if (tagStrings.contains(entry)) {
+    /*if (tagStrings.contains(entry)) {
       updateTag(entry, newTime);
-    }
+    }*/
     // If the tag does not exist in this video yet, add it at the desired time
-    else { this.tags.add(new VideoTag(entry, newTime)); }
+    this.tags.add(new VideoTag(entry, newTime));
   }
 
   protected void addGroup(String entry) {
@@ -46,11 +46,11 @@ public class Video {
     System.out.println(this.groups);
   }
 
-  private void updateTag(String tag, String newTime) {
+  /*private void updateTag(String tag, String newTime) {
     int ii = this.tags.indexOf(tag);
     VideoTag updatedTag = this.tags.get(ii);
     updatedTag.addTime(newTime);
-  }
+  }*/
 
   protected ArrayList<JLabel> getGroups() {
     return this.groups;

@@ -4,21 +4,25 @@ import javax.swing.*;
 
 public class VideoTag {
   private String text;
-  private DefaultListModel<String> times;
+  private String time;
 
-  VideoTag(String text, String newTime) {
+  VideoTag(String text, String time) {
     this.text = text;
-    this.times = new DefaultListModel<>();
-
-    this.times.addElement(newTime);
+    this.time = time;
   }
 
   String getText() {
     return this.text;
   }
 
-  void addTime(String time) {
-    this.times.addElement(time);
+  String getTime() { return this.time; }
+
+  int getMs() {
+    String[] split_time = this.time.split(":");
+    int min = Integer.parseInt(split_time[0]);
+    int sec = Integer.parseInt(split_time[1]);
+
+    return (min * 60 + sec) * 1000;
   }
 
 }

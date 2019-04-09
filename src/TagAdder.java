@@ -10,8 +10,8 @@ public class TagAdder extends JFrame {
   VideoPage page;
   Container container;
   JPanel main, groupMenu;
-  JTextField tagName;
-  JLabel instructions;
+  JTextField tagName, time_entry;
+  JLabel instructions, time_instructions;
   JButton done;
   public boolean doneClicked;
 
@@ -25,10 +25,14 @@ public class TagAdder extends JFrame {
 
     main = new JPanel();
     main.setLayout(new BoxLayout(main, BoxLayout.PAGE_AXIS));
-    main.setBounds(0,0, 200,150);
+    main.setBounds(0,0, 200,450);
 
     instructions = new JLabel("Enter group name:");
     tagName = new JTextField();
+
+    time_instructions = new JLabel("Enter time stamp (MM:SS):");
+    time_entry = new JTextField();
+
     done = new JButton("Done");
 
     container = getContentPane();
@@ -40,6 +44,13 @@ public class TagAdder extends JFrame {
     tagName.setAlignmentX(Component.CENTER_ALIGNMENT);
     tagName.setMaximumSize(new Dimension(200,50));
     main.add(tagName);
+
+    time_instructions.setAlignmentX(Component.CENTER_ALIGNMENT);
+    main.add(time_instructions);
+
+    time_entry.setAlignmentX(Component.CENTER_ALIGNMENT);
+    time_entry.setMaximumSize(new Dimension(100, 30));
+    main.add(time_entry);
 
     done.setAlignmentX(Component.CENTER_ALIGNMENT);
     main.add(done);
@@ -54,7 +65,8 @@ public class TagAdder extends JFrame {
         dispose();
         doneClicked = true;
         textEntry = tagName.getText();
-        page.addTag(textEntry, "00:00");
+        String time = time_entry.getText();
+        page.addTag(textEntry, time);
       }
     });
   }

@@ -28,9 +28,14 @@ public class VideoPage extends JFrame {
   private Video videoObj;
   private String title;
   private VideoPage page;
+<<<<<<< Updated upstream
   private JPanel videoPanel;
   private JFXPanel VFXPanel;
   private MediaControl mediaControl;
+=======
+  private JPanel videoPanel, tagPanel;
+  private JScrollPane tagScroll;
+>>>>>>> Stashed changes
 
 
   // TODO: Make this constructor take a model object
@@ -39,9 +44,9 @@ public class VideoPage extends JFrame {
     this.title = vid.title;
     setLayout(null);
     this.page = this;
+    this.videoObj = vid;
 
     videoPanel = new JPanel();
-
 
     this.tagHolder = new DefaultListModel<String>();
     for (VideoTag t : vid.tags) {
@@ -49,7 +54,9 @@ public class VideoPage extends JFrame {
     }
     this.groups = vid.groups;
 
-    this.tags = new JList<>(this.tagHolder);
+    buildTagPanel();
+
+    //this.tags = new JList<>(this.tagHolder);
 
     Font defaultFont = new Font("Serif", Font.BOLD, 24);
 
@@ -68,7 +75,7 @@ public class VideoPage extends JFrame {
       @Override
       public void actionPerformed(ActionEvent e) {
         JFrame groupAdder = new GroupAdder("Add Group", page);
-        groupAdder.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        groupAdder.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         groupAdder.setLocation(700, 150);
         groupAdder.setSize(new Dimension(200,150));
         groupAdder.setVisible(true);
@@ -95,9 +102,9 @@ public class VideoPage extends JFrame {
       @Override
       public void actionPerformed(ActionEvent e) {
         JFrame tagAdder = new TagAdder("Add Tag", page);
-        tagAdder.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        tagAdder.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         tagAdder.setLocation(700, 150);
-        tagAdder.setSize(new Dimension(200,150));
+        tagAdder.setSize(new Dimension(200,200));
         tagAdder.setVisible(true);
       }
     });
@@ -131,7 +138,7 @@ public class VideoPage extends JFrame {
 
 
   void addTag(String entry, String time) {
-    this.videoObj.addTag(entry, "00:00");
+    this.videoObj.addTag(entry, time);
 
     this.refreshLayout();
   }
@@ -180,7 +187,21 @@ public class VideoPage extends JFrame {
     myTags.setBounds(800, 25, 100, 25);
     gameTitle.setBounds(50, 75, 250, 25);
     videoPanel.setBounds(25,100,750,550);
-    tags.setBounds(800, 50, 175, 600);
+    //tags.setBounds(800, 50, 175, 600);
+    tagScroll.setBounds(800, 50, 175, 600);
+  }
+
+  private void buildTagPanel() {
+    tagPanel = new JPanel();
+
+    for (VideoTag tag : this.videoObj.tags) {
+      JButton tagButton = new JButton(tag.getText() + " " + tag.getTime());
+      tagPanel.add(tagButton);
+    }
+
+    tagScroll = new JScrollPane(tagPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
   }
 
 
@@ -191,7 +212,8 @@ public class VideoPage extends JFrame {
     add(groupHeader);
     add(myTags);
     add(gameTitle);
-    add(tags);
+    //add(tags);
+    add(tagScroll);
     add(videoPanel);
     for (JLabel gl : groups) {
       add(gl);
