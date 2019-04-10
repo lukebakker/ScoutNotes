@@ -2,10 +2,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import javax.swing.*;
-import javax.swing.JApplet;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.DoubleProperty;
@@ -23,15 +21,15 @@ public class VideoPage extends JFrame {
   private JButton homeButton, plusGroup, newTag, vidImg;
   private JLabel groupHeader, myTags, gameTitle;
   private JList<String> tags;
-  private ArrayList<JLabel> groups;
-  private DefaultListModel<String> tagHolder;
+  private ArrayList<String> groups;
   private Video videoObj;
   private String title;
   private VideoPage page;
   private JFXPanel VFXPanel;
   private MediaControl mediaControl;
   private JPanel videoPanel, tagPanel;
-  private JScrollPane tagScroll;
+  private JScrollPane tagScroll, groupScroll;
+  private Font defaultFont;
 
   // TODO: Make this constructor take a model object
   VideoPage(String title, Video vid) {
@@ -43,39 +41,13 @@ public class VideoPage extends JFrame {
 
     videoPanel = new JPanel();
 
-    this.tagHolder = new DefaultListModel<>();
-    for (VideoTag t : vid.tags) {
-      this.tagHolder.addElement(t.getText());
-    }
-    this.groups = vid.groups;
+    this.groups = vid.getGroups();
 
     buildTagPanel();
 
-    //this.tags = new JList<>(this.tagHolder);
-
     Font defaultFont = new Font("Serif", Font.BOLD, 24);
 
-    // Labels indicating groups and tags for the video
-    this.groupHeader = new JLabel("Groups:");
-    this.groupHeader.setFont(defaultFont);
-    this.myTags = new JLabel("My Tags");
-    this.myTags.setFont(defaultFont);
-    // Create the + button to add a group label to the video
-    this.plusGroup = new JButton();
-    ImageIcon plusIcon = resizeImage(new ImageIcon(getClass().getResource("/plus-sign.png")), 25, 25);
-    this.plusGroup.setIcon(plusIcon);
-
-    // Add listener for adding group
-    this.plusGroup.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        JFrame groupAdder = new GroupAdder("Add Group", page);
-        groupAdder.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        groupAdder.setLocation(700, 150);
-        groupAdder.setSize(new Dimension(200,150));
-        groupAdder.setVisible(true);
-      }
-    });
+    buildGroups();
 
     // Create the button to navigate back to the home page
     this.homeButton = new JButton();
@@ -106,14 +78,8 @@ public class VideoPage extends JFrame {
 
     this.videoObj = vid;
 
-    // TODO: Use model data here
     this.gameTitle = new JLabel(title);
     this.gameTitle.setFont(defaultFont);
-
-//    // TODO: Add video player
-//    ImageIcon vidPlayer = resizeImage(new ImageIcon(getClass().getResource("/vid-player.png")), 750, 550);
-//    this.vidImg = new JButton();
-//    this.vidImg.setIcon(vidPlayer);
 
     // TODO: Add event listeners
 
@@ -128,45 +94,18 @@ public class VideoPage extends JFrame {
   void addGroup(String entry) {
     this.videoObj.addGroup(entry);
 
+    refreshGroups();
 
-
-    this.refreshLayout();
+    //this.refreshLayout();
   }
 
 
   void addTag(String entry, String time) {
     this.videoObj.addTag(entry, time);
 
-    remove(tagScroll);
-    buildTagPanel();
-    tagScroll.setBounds(800, 50, 175, 600);
-    add(tagScroll);
-
-    tagScroll.repaint();
-    tagScroll.revalidate();
+    refreshTags();
 
     //this.refreshLayout();
-  }
-
-
-  //private void deleteTag(String tag) {
-  //  this.tagHolder.removeElement(tag);
-  //}
-
-
-  private void prevTag(JButton tagButton) {
-
-  }
-
-
-  protected void refreshLayout() {
-    System.out.println(this.videoObj.tags);
-    JFrame frame = new VideoPage(this.title, this.videoObj);
-    frame.setSize(1000, 800);
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setVisible(true);
-    dispose();
-
   }
 
 
@@ -179,40 +118,119 @@ public class VideoPage extends JFrame {
 
 
   private void setLocations() {
-
-    homeButton.setBounds(25, 25, 25, 25);
-    groupHeader.setBounds(75, 25, 100, 25);
-    int curX = 175;
-    for (JLabel gl : this.groups) {
-      gl.setBounds(curX, 25, 75, 25);
-      curX += 75;
-    }
-    plusGroup.setBounds(curX, 25,25,25);
-
+    homeButton.setBounds(25, 25, 40, 40);
     newTag.setBounds(800, 700, 150, 50);
     myTags.setBounds(800, 25, 100, 25);
-    gameTitle.setBounds(50, 75, 250, 25);
-    videoPanel.setBounds(25,100,750,550);
-    //tags.setBounds(800, 50, 175, 600);
-    tagScroll.setBounds(800, 50, 175, 600);
+    gameTitle.setBounds(50, 100, 250, 25);
+    videoPanel.setBounds(25,125,750,550);
+    tagScroll.setBounds(800, 50, 375, 600);
+  }
+
+  private void buildGroups() {
+    // Labels indicating groups and tags for the video
+    this.groupHeader = new JLabel("Groups:");
+    this.groupHeader.setFont(defaultFont);
+    this.myTags = new JLabel("My Tags");
+    this.myTags.setFont(defaultFont);
+
+    System.out.println(this.groups);
+
+    groupHeader.setBounds(75, 25, 50, 25);
+
+    // Create the + button to add a group label to the video
+    this.plusGroup = new JButton();
+    ImageIcon plusIcon = resizeImage(new ImageIcon(getClass().getResource("/plus-sign.png")), 20, 20);
+    this.plusGroup.setIcon(plusIcon);
+
+    // Add listener for adding group
+    this.plusGroup.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        JFrame groupAdder = new GroupAdder("Add Group", page);
+        groupAdder.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        groupAdder.setLocation(700, 150);
+        groupAdder.setSize(new Dimension(200,150));
+        groupAdder.setVisible(true);
+      }
+    });
+
+    this.plusGroup.setBounds(125, 25, 30, 30);
+
+    JPanel groupPane = new JPanel();
+    groupPane.setLayout(new BoxLayout(groupPane, BoxLayout.LINE_AXIS));
+
+    groupScroll = new JScrollPane(groupPane, JScrollPane.VERTICAL_SCROLLBAR_NEVER,
+            JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+
+    groupScroll.setBounds(175, 25, 600, 50);
+
+    for (String gl : this.groups) {
+      JButton gButton = new JButton(gl);
+      groupPane.add(gButton);
+      gButton.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+          videoObj.removeGroup(gButton.getText());
+          refreshGroups();
+        }
+      });
+    }
+
   }
 
   private void buildTagPanel() {
     tagPanel = new JPanel();
+    ImageIcon deleteImgIcon = resizeImage(new ImageIcon(getClass().getResource("/delete-icon.jpg")), 20, 10);
+    int cntr = 0;
 
     for (VideoTag tag : this.videoObj.tags) {
-      JButton tagButton = new JButton(tag.getText() + " " + tag.getTime());
+      cntr++;
+      // Create horizontal pane with delete, previous tag, and go-to-time buttons
+      JPanel buttonPane = new JPanel();
+      buttonPane.setLayout(new BoxLayout(buttonPane, BoxLayout.LINE_AXIS));
+
+      JButton delButton = new JButton(deleteImgIcon);
+      delButton.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+          deleteTag(tag);
+        }
+      });
+
+      JButton tagButton = new JButton(tag.getText());
       tagButton.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+          prevTag(tag.getText(), "11:11");
+        }
+      });
+
+      JButton timeButton = new JButton(tag.getTime());
+      timeButton.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
           goToTime(new Duration(tag.getMs())) ;
         }
       });
-      tagPanel.add(tagButton);
+      delButton.setMaximumSize(new Dimension(5, 25));
+      timeButton.setMaximumSize(new Dimension(25, 25));
+
+      buttonPane.add(delButton);
+      buttonPane.add(tagButton);
+      buttonPane.add(timeButton);
+
+      buttonPane.add(Box.createRigidArea(new Dimension(140, 25)));
+
+      buttonPane.setAlignmentX(Component.LEFT_ALIGNMENT);
+      if (cntr % 2 == 1) {
+        buttonPane.setBackground(Color.LIGHT_GRAY);
+      }
+
+      tagPanel.add(buttonPane);
     }
     tagPanel.setLayout(new BoxLayout(tagPanel, BoxLayout.PAGE_AXIS));
     tagScroll = new JScrollPane(tagPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-            JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+            JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
   }
 
@@ -222,14 +240,11 @@ public class VideoPage extends JFrame {
     add(plusGroup);
     add(newTag);
     add(groupHeader);
+    add(groupScroll);
     add(myTags);
     add(gameTitle);
-    //add(tags);
     add(tagScroll);
     add(videoPanel);
-    for (JLabel gl : groups) {
-      add(gl);
-    }
   }
 
   private void initVideoPlayer(){
@@ -270,6 +285,43 @@ public class VideoPage extends JFrame {
   private void goToTime(Duration currTime) {
     mediaControl.setTime(currTime);
     mediaControl.updateValues();
+  }
+
+
+  private void deleteTag(VideoTag tag) {
+    this.videoObj.tags.remove(tag);
+
+    refreshTags();
+  }
+
+
+  private void prevTag(String text, String time) {
+    System.out.println(text + time);
+
+    JFrame tagAdder = new TagAdder("Add Tag", page, text, time);
+    tagAdder.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+    tagAdder.setLocation(700, 150);
+    tagAdder.setSize(new Dimension(200,200));
+    tagAdder.setVisible(true);
+  }
+
+  private void refreshGroups() {
+    remove(groupScroll);
+    buildGroups();
+    add(groupScroll);
+
+    groupScroll.repaint();
+    groupScroll.revalidate();
+  }
+
+  private void refreshTags() {
+    remove(tagScroll);
+    buildTagPanel();
+    tagScroll.setBounds(800, 50, 375, 600);
+    add(tagScroll);
+
+    tagScroll.repaint();
+    tagScroll.revalidate();
   }
 
 

@@ -4,6 +4,8 @@ import java.awt.event.ActionListener;
 import java.net.URL;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.swing.*;
@@ -31,7 +33,6 @@ class HomePage extends JFrame {
 
     this.user = user;
 
-    this.groupSet = this.user.mapping.keySet();
 
     this.userVideos = this.user.videos;
 
@@ -40,8 +41,6 @@ class HomePage extends JFrame {
     searchBar = new JTextField();
     searchButton = new JButton("Search:");
     searchButton.setFont(new Font("Serif", Font.BOLD, 24));
-
-    initializeVideos();
 
     container = getContentPane();
     addComponents();
@@ -81,14 +80,17 @@ class HomePage extends JFrame {
     });
   }
 
-  private void initializeVideos() {
-
-
-
-  }
-
-
   private void makeGroupMenu() {
+    Collection<ArrayList<String>> groupsCol = this.user.mapping.values();
+
+    Set<String> groups = new HashSet<String>();
+
+    for (ArrayList<String> gc : groupsCol) {
+      groups.addAll(gc);
+    }
+
+    this.groupSet = groups;
+
     groupMenu = new JPanel();
     groupMenu.setLayout(new BoxLayout(groupMenu, BoxLayout.PAGE_AXIS));
     createGroupButton = new JButton("Create Group");
@@ -142,8 +144,8 @@ class HomePage extends JFrame {
         @Override
         public void actionPerformed(ActionEvent e) {
           JFrame videoPage = new VideoPage(vid.title, vid);
-          videoPage.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-          videoPage.setSize(1000, 800);
+          videoPage.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+          videoPage.setSize(1200, 800);
           videoPage.setVisible(true);
           dispose();
         }
@@ -178,12 +180,12 @@ class HomePage extends JFrame {
   }
 
   private void addGroupButton() {
-
-    System.out.println(user.mapping.keySet());
+    System.out.println(this.user.mapping);
     remove(groupMenu);
     makeGroupMenu();
     add(groupMenu);
     groupMenu.setBounds(700, 0, 300, 800);
+    groupMenu.setBackground(Color.GRAY);
 
     groupMenu.repaint();
     groupMenu.revalidate();
@@ -191,7 +193,8 @@ class HomePage extends JFrame {
   }
 
   void addGroup(String text) {
-    this.user.mapping.put(text, null);
+    System.out.println(this.user.mapping);
+    this.user.addGroupToVid(null, text);
 
     addGroupButton();
   }

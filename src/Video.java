@@ -6,23 +6,21 @@ import javax.swing.*;
 public class Video {
   protected String title;
   protected ArrayList<VideoTag> tags;
-  protected ArrayList<JLabel> groups;
+  protected ArrayList<String> groups;
   protected ImageIcon image;
   protected UserData user;
   protected String vidPath;
 
-  Video(String title, ArrayList<JLabel> groups, ArrayList<VideoTag> tags, ImageIcon image, UserData user, String vidPath) {
+  Video(String title, ArrayList<VideoTag> tags, ImageIcon image, UserData user, String vidPath) {
     this.title = title;
-    this.groups = groups;
     this.tags = tags;
     this.image = image;
     this.user = user;
     this.vidPath = vidPath;
   }
 
-  Video(String title, ArrayList<JLabel> groups, ArrayList<VideoTag> tags, UserData user, String vidPath) {
+  Video(String title, ArrayList<VideoTag> tags, UserData user, String vidPath) {
     this.title = title;
-    this.groups = groups;
     this.tags = tags;
     this.image = new ImageIcon(getClass().getResource("/vid-player.png"));
     this.user = user;
@@ -35,18 +33,11 @@ public class Video {
   }
 
   protected void addGroup(String entry) {
-    this.groups.add(new JLabel(entry));
-    this.user.mapping.put(entry, this);
+    this.user.addGroupToVid(this, entry);
   }
 
-  /*private void updateTag(String tag, String newTime) {
-    int ii = this.tags.indexOf(tag);
-    VideoTag updatedTag = this.tags.get(ii);
-    updatedTag.addTime(newTime);
-  }*/
-
-  protected ArrayList<JLabel> getGroups() {
-    return this.groups;
+  protected ArrayList<String> getGroups() {
+    return this.user.getGroupsByVideo(this);
   }
 
   protected void sendHome() {
@@ -54,6 +45,13 @@ public class Video {
     frame.setSize(1000, 800);
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.setVisible(true);
+  }
+
+  protected void removeGroup(String gName) {
+    this.groups.remove(gName);
+    this.user.mapping.remove(gName, this);
+    System.out.println(this.groups);
+    System.out.println(this.user.mapping);
   }
 
 }

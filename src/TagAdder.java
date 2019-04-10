@@ -23,15 +23,31 @@ public class TagAdder extends JFrame {
 
     setLayout(null);
 
+    initFrame("", "");
+
+  }
+
+  TagAdder(String title, VideoPage page, String defaultText, String defaultTime) {
+    super(title);
+    doneClicked = false;
+    this.page = page;
+
+    setLayout(null);
+
+    initFrame(defaultText, defaultTime);
+
+  }
+
+  void initFrame(String defaultText, String defaultTime) {
     main = new JPanel();
     main.setLayout(new BoxLayout(main, BoxLayout.PAGE_AXIS));
     main.setBounds(0,0, 200,450);
 
     instructions = new JLabel("Enter tag name:");
-    tagName = new JTextField();
+    tagName = new JTextField(defaultText);
 
     time_instructions = new JLabel("Enter time stamp (MM:SS):");
-    time_entry = new JTextField();
+    time_entry = new JTextField(defaultTime);
 
     done = new JButton("Done");
 

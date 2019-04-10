@@ -56,8 +56,6 @@ public class CreateGroup extends JFrame{
         doneClicked = true;
         String textEntry = groupName.getText();
         page.addGroup(textEntry);
-        //user.mapping.put(textEntry, null);
-        System.out.println(user.mapping.keySet());
       }
     });
   }

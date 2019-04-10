@@ -15,7 +15,7 @@ class LoginFrame extends JFrame {
   private UserData testUser;
   private String[] dummyGroupList;
   private ArrayList<Video> dummyData;
-  private ArrayList<VideoTag> defaultTags;
+  private ArrayList<VideoTag> defaultTags1, defaultTags2, defaultTags3, defaultTags4, defaultTags5;
   private ArrayList<Video> userVideos;
   private ArrayList<JLabel> dummyTags;
   private ArrayList<String> userGroups;
@@ -35,12 +35,25 @@ class LoginFrame extends JFrame {
     this.dummyGroupList = new String[]{"Football"};
 
     // initialize dummy data
-    this.defaultTags = new ArrayList<>();
-    this.defaultTags.add(new VideoTag("Good catch", "00:00"));
-    this.defaultTags.add(new VideoTag("Nice block", "00:00"));
+    this.defaultTags1 = new ArrayList<>();
+    this.defaultTags1.add(new VideoTag("Good catch", "00:41"));
+    this.defaultTags1.add(new VideoTag("Nice block", "00:12"));
 
-    this.dummyTags = new ArrayList<>();
-    this.dummyTags.add(new JLabel("Football"));
+    this.defaultTags2 = new ArrayList<>();
+    this.defaultTags2.add(new VideoTag("Good catch", "00:41"));
+    this.defaultTags2.add(new VideoTag("Nice block", "00:12"));
+
+    this.defaultTags3 = new ArrayList<>();
+    this.defaultTags3.add(new VideoTag("Good catch", "00:41"));
+    this.defaultTags3.add(new VideoTag("Nice block", "00:12"));
+
+    this.defaultTags4 = new ArrayList<>();
+    this.defaultTags4.add(new VideoTag("Good catch", "00:41"));
+    this.defaultTags4.add(new VideoTag("Nice block", "00:12"));
+
+    this.defaultTags5 = new ArrayList<>();
+    this.defaultTags5.add(new VideoTag("Good catch", "00:41"));
+    this.defaultTags5.add(new VideoTag("Nice block", "00:12"));
 
     ImageIcon cowboysVDolphinsImg = new ImageIcon(getClass().getResource("/CowboysVDolphins.jpg"));
     ImageIcon dolphinsVBengalsImg = new ImageIcon(getClass().getResource("/DolphinsVBengals.jpeg"));
@@ -49,23 +62,33 @@ class LoginFrame extends JFrame {
     ImageIcon patriotsVRamsImg = new ImageIcon(getClass().getResource("/PatriotsVRams.jpeg"));
 
     this.userVideos = new ArrayList<>();
-    HashMap<String, Video> userMap = new HashMap<>();
+    HashMap<Video, ArrayList<String>> userMap = new HashMap<>();
 
     testUser = new UserData("username", "password", this.userVideos, userMap);
 
-    dolphinsVBengals = new Video("Dolphins vs. Bengals", this.dummyTags, this.defaultTags, dolphinsVBengalsImg, testUser, "videos/dolphins-bengals.mp4");
-    jetsVPatriots = new Video("Jets vs. Patriots", this.dummyTags, this.defaultTags, jetsVPatriotsImg, testUser, "videos/jets-patriots.mp4");
-    cowboysVDolphins = new Video("Cowboys vs. Dolphins", this.dummyTags, this.defaultTags, cowboysVDolphinsImg, testUser, "videos/cowboys-dolphins.mp4");
-    jetsVRams = new Video("Jets vs. Rams", this.dummyTags, this.defaultTags, jetsVRamsImg, testUser, "videos/jets-rams.mp4");
-    patriotsVRams = new Video("Patriots vs. Rams", this.dummyTags, this.defaultTags, patriotsVRamsImg, testUser, "videos/patriots-rams.mp4");
+    dolphinsVBengals = new Video("Dolphins vs. Bengals", this.defaultTags1, dolphinsVBengalsImg, testUser, "videos/dolphins-bengals.mp4");
+    jetsVPatriots = new Video("Jets vs. Patriots", this.defaultTags2, jetsVPatriotsImg, testUser, "videos/jets-patriots.mp4");
+    cowboysVDolphins = new Video("Cowboys vs. Dolphins", this.defaultTags3, cowboysVDolphinsImg, testUser, "videos/cowboys-dolphins.mp4");
+    jetsVRams = new Video("Jets vs. Rams", this.defaultTags4, jetsVRamsImg, testUser, "videos/jets-rams.mp4");
+    patriotsVRams = new Video("Patriots vs. Rams", this.defaultTags5, patriotsVRamsImg, testUser, "videos/patriots-rams.mp4");
 
+    ArrayList<String> grouplist1 = new ArrayList<>();
+    ArrayList<String> grouplist2 = new ArrayList<>();
+    ArrayList<String> grouplist3 = new ArrayList<>();
+    ArrayList<String> grouplist4 = new ArrayList<>();
+    ArrayList<String> grouplist5 = new ArrayList<>();
 
-    userMap.put("Football", dolphinsVBengals);
-    userMap.put("Football", jetsVPatriots);
-    userMap.put("Football", cowboysVDolphins);
-    userMap.put("Football", jetsVRams);
-    userMap.put("Football", patriotsVRams);
+    grouplist1.add("Football");
+    grouplist2.add("Football");
+    grouplist3.add("Football");
+    grouplist4.add("Football");
+    grouplist5.add("Football");
 
+    userMap.put(dolphinsVBengals, grouplist1);
+    userMap.put(jetsVPatriots, grouplist2);
+    userMap.put(cowboysVDolphins, grouplist3);
+    userMap.put(jetsVRams, grouplist4);
+    userMap.put(patriotsVRams, grouplist5);
 
     this.userVideos.add(dolphinsVBengals);
     this.userVideos.add(jetsVPatriots);
