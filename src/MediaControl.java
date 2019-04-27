@@ -231,4 +231,8 @@ public class MediaControl extends BorderPane {
       }
     }
   }
+
+  Duration getCurrentTime() {
+    return mp.getCurrentTime();
+  }
 }

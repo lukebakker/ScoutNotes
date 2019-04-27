@@ -66,7 +66,7 @@ class LoginFrame extends JFrame {
 
     testUser = new UserData("username", "password", this.userVideos, userMap);
 
-    dolphinsVBengals = new Video("Dolphins vs. Bengals", this.defaultTags1, dolphinsVBengalsImg, testUser, "videos/dolphins-bengals.mp4");
+    dolphinsVBengals = new Video("Cowboys vs. Bengals", this.defaultTags1, dolphinsVBengalsImg, testUser, "videos/dolphins-bengals.mp4");
     jetsVPatriots = new Video("Jets vs. Patriots", this.defaultTags2, jetsVPatriotsImg, testUser, "videos/jets-patriots.mp4");
     cowboysVDolphins = new Video("Cowboys vs. Dolphins", this.defaultTags3, cowboysVDolphinsImg, testUser, "videos/cowboys-dolphins.mp4");
     jetsVRams = new Video("Jets vs. Rams", this.defaultTags4, jetsVRamsImg, testUser, "videos/jets-rams.mp4");

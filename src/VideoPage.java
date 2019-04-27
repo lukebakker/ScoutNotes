@@ -16,6 +16,8 @@ import javafx.scene.media.MediaView;
 import javafx.stage.Screen;
 import javafx.util.Duration;
 
+import static javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER;
+
 // TODO: Use model class, add video player
 public class VideoPage extends JFrame {
   private JButton homeButton, plusGroup, newTag, vidImg;
@@ -62,6 +64,7 @@ public class VideoPage extends JFrame {
       @Override
       public void actionPerformed(ActionEvent e) {
         videoObj.sendHome();
+        dispose();
       }
     });
 
@@ -201,7 +204,26 @@ public class VideoPage extends JFrame {
       tagButton.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
-          prevTag(tag.getText(), "11:11");
+          double timeInSeconds = mediaControl.getCurrentTime().toSeconds();
+          int minutes = (int) Math.floor(timeInSeconds / 60);
+          int seconds = (int) Math.floor(timeInSeconds % 60);
+          String secondsString = "";
+          String minutesString = "";
+          if (seconds < 10) {
+            secondsString = "0" + seconds;
+          } else {
+            secondsString = "" + seconds;
+          }
+
+          if (minutes < 10) {
+            minutesString = "0" + minutes;
+          } else {
+            minutesString = "" + minutes;
+          }
+
+
+
+          prevTag(tag.getText(), minutesString + ":" + secondsString);
         }
       });
 
@@ -231,6 +253,7 @@ public class VideoPage extends JFrame {
     tagPanel.setLayout(new BoxLayout(tagPanel, BoxLayout.PAGE_AXIS));
     tagScroll = new JScrollPane(tagPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
             JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+    tagScroll.setHorizontalScrollBarPolicy(HORIZONTAL_SCROLLBAR_NEVER);
 
   }
 

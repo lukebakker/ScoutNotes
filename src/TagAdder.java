@@ -38,6 +38,8 @@ public class TagAdder extends JFrame {
 
   }
 
+
+
   void initFrame(String defaultText, String defaultTime) {
     main = new JPanel();
     main.setLayout(new BoxLayout(main, BoxLayout.PAGE_AXIS));
